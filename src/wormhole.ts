@@ -1,3 +1,26 @@
+import { ApiStatsService } from './services/apis/stats/api.stats.service';
+import { LatestStatsResponse } from './services/apis/stats/api.stats.model';
+
+const apiStatsService = new ApiStatsService();
+
+function fetchLatestStats() {
+  apiStatsService.getLatestStats()
+    .then((response: LatestStatsResponse) => {
+      const currentTick = response.data.currentTick;
+      console.log('Current Tick:', currentTick);
+      // You can do more with currentTick here
+    })
+    .catch((error) => {
+      console.error('Error fetching latest stats:', error);
+    });
+}
+
+// Call fetchLatestStats every 5 seconds
+setInterval(fetchLatestStats, 10000);
+fetchLatestStats();
+
+// Initial call to start immediately
+
 const canvas = document.getElementById('wormholeCanvas') as HTMLCanvasElement;
 const ctx = canvas.getContext('2d')!;
 
