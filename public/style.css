@@ -84,3 +84,12 @@ canvas {
   font-size: 20px;
   color: gray;
 }
+
+.moving-text {
+  position: absolute;
+  transition: opacity 1s ease-out; /* Für das langsame Ausblenden */
+}
+
+.fade-out {
+  opacity: 0;
+}

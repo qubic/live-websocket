@@ -8,7 +8,7 @@ export class MovingText {
     private _z: number;
     private _fontSize: number;
     private _divElement: HTMLDivElement;
-    private baseSpeed: number = 6;
+    private baseSpeed: number = 5;
 
     private apiStatsService = new ApiStatsService();
     private latestStats: LatestStatsResponse | null = null;
@@ -100,19 +100,32 @@ export class MovingText {
 
     private updateSpeed() {
         const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
-        this.baseSpeed = 6 * scaleFactor;
+        this.baseSpeed = 5 * scaleFactor;
     }
 
     update() {
         this._z -= this.baseSpeed;
+    
+        // Wenn der Text den Bildschirm verlässt
         if (this._z <= 0) {
             this.setNewLabel();
             this._z = window.innerWidth;
+    
+            // Setze den Text für eine Sekunde stehen und dann langsam ausblenden
+            this._divElement.classList.remove('fade-out');
+            setTimeout(() => {
+                // Text stehen lassen für 1 Sekunde
+                setTimeout(() => {
+                    // Text ausblenden
+                    this._divElement.classList.add('fade-out');
+                }, 4000); // Verweildauer von 1 Sekunde
+            }, 1500); // Kurze Verzögerung, um das Entfernen der Fade-Out-Klasse zu gewährleisten
         }
+    
         this._fontSize = 40 * (window.innerWidth / this._z);
-
         this._divElement.style.fontSize = `${this._fontSize}px`;
     }
+    
 
 
     draw() {
