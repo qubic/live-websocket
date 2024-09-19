@@ -3,8 +3,9 @@ import { environment } from '../../../environments/environment';
 
 export class ApiStatsService {
   private basePath: string = environment.apiUrl;
-
+  
   public async getLatestStats(): Promise<LatestStatsResponse> {
+    
     const localVarPath = '/v1/latest-stats';
     
     try {
@@ -14,9 +15,10 @@ export class ApiStatsService {
           'Content-Type': 'application/json',
         },
       });
-
+      
       // Überprüfen, ob die Antwort erfolgreich ist
       if (!response.ok) {
+        console.log('!response.ok Error');
         throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
 

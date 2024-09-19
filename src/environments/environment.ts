@@ -2,5 +2,6 @@
 export const environment = {
     version: '1.0.0',
     production: false,
-    apiUrl: 'http://localhost:7004',
+    // apiUrl: 'https://testapi.qubic.org"',
+    apiUrl: 'https://rpc.qubic.org',
 };

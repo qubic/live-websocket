@@ -7,10 +7,9 @@ function createProxy(targetURL, port) {
     var myLimit = typeof(process.argv[2]) != 'undefined' ? process.argv[2] : '500kb';
     console.log('Using limit: ', myLimit);
 
-    app.use(bodyParser.json({limit: myLimit}));
+    app.use(bodyParser.json({ limit: myLimit }));
 
     app.all('*', function (req, res, next) {
-
         // allow CORS
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
@@ -24,13 +23,28 @@ function createProxy(targetURL, port) {
                 res.status(500).send({ error: 'There is no Target-Endpoint header in the request' });
                 return;
             }
-            console.log("API CALL: " + req.method  + "\t" + targetURL + req.url);
-            request({ url: targetURL + req.url, method: req.method, json: req.body, headers: {'Authorization': req.header('Authorization')} },
-                function (error, response, body) {
-                    if (error) {
-                        console.error('error: ' + response.statusCode);
-                    }
-                }).pipe(res);
+
+            console.log("API CALL: " + req.method + "\t" + targetURL + req.url);
+
+            // Forward the request to the target URL with proper headers
+            request({
+                url: targetURL + req.url,
+                method: req.method,
+                json: req.body,
+                headers: {
+                    'Authorization': req.header('Authorization'),
+                    'Content-Type': req.header('Content-Type'),
+                    'Accept': req.header('Accept')
+                }
+            }, function (error, response, body) {
+                if (error) {
+                    console.error('Error: ', error);
+                    res.status(500).send({ error: 'Proxy error', details: error });
+                } else {
+                    // Forward the response from the target server back to the client
+                    res.status(response.statusCode).send(body);
+                }
+            });
         }
     });
 
@@ -41,4 +55,4 @@ function createProxy(targetURL, port) {
     });
 }
 
-createProxy("https://testapi.qubic.org", 7004);
+createProxy("https://testapi.qubic.org", 7005);

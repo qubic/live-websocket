@@ -16,7 +16,7 @@ function fetchLatestStats() {
 }
 
 // Call fetchLatestStats every 5 seconds
-setInterval(fetchLatestStats, 10000);
+setInterval(fetchLatestStats, 30000);
 fetchLatestStats();
 
 // Initial call to start immediately
