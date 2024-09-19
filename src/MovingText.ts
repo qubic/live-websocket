@@ -2,10 +2,13 @@ import { LatestStatsResponse } from "./services/apis/stats/api.stats.model";
 import { ApiStatsService } from "./services/apis/stats/api.stats.service";
 
 export class MovingText {
+    private _title: string;
     private _text: string;
+    private _info: string;
     private _z: number;
     private _fontSize: number;
     private _divElement: HTMLDivElement;
+    private baseSpeed: number = 6;
 
     private apiStatsService = new ApiStatsService();
     private latestStats: LatestStatsResponse | null = null;
@@ -30,6 +33,8 @@ export class MovingText {
 
     constructor(text: string) {
         this._text = text;
+        this._title = "";
+        this._info = "";
         this._z = window.innerWidth;
         this._fontSize = 10;
 
@@ -37,8 +42,9 @@ export class MovingText {
         this.fetchLatestStats = this.fetchLatestStats.bind(this);
 
         // Call fetchLatestStats every 30 seconds
-        setInterval(this.fetchLatestStats, 30000);
+        setInterval(this.fetchLatestStats, 60000);
         this.fetchLatestStats();
+
 
         // Erstellen des div-Elements
         this._divElement = document.createElement('div');
@@ -47,6 +53,8 @@ export class MovingText {
 
         // Hinzufügen des div-Elements zum Body
         document.body.appendChild(this._divElement);
+        this.updateSpeed();
+        window.addEventListener('resize', () => this.updateSpeed());
     }
 
     get text(): string {
@@ -60,23 +68,57 @@ export class MovingText {
         this._text = newText;
 
         // Erstellen und Hinzufügen des neuen div-Elements
+        // this._divElement = document.createElement('div');
+        // this._divElement.className = 'moving-text';
+        // this._divElement.textContent = this._text;
+        // document.body.appendChild(this._divElement);
+
+        // Erstellen und Hinzufügen des neuen div-Elements basierend auf dem neuen HTML
         this._divElement = document.createElement('div');
         this._divElement.className = 'moving-text';
-        this._divElement.textContent = this._text;
+
+        // Erstellen des div-Elements für den Titel
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'title';
+        titleDiv.textContent = this._title;
+
+        // Erstellen des div-Elements für den Textwert
+        const valueDiv = document.createElement('div');
+        valueDiv.className = 'value';
+        valueDiv.textContent = this._text;
+
+        // Erstellen des div-Elements für die Info
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'info';
+        infoDiv.textContent = this._info;
+
+        // Zusammenbau der Elemente
+        this._divElement.appendChild(titleDiv);
+        this._divElement.appendChild(valueDiv);
+        // this._divElement.appendChild(infoDiv);
+
+        // Hinzufügen des div-Elements zum Body
         document.body.appendChild(this._divElement);
+
+
+    }
+
+    private updateSpeed() {
+        const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
+        this.baseSpeed = 6 * scaleFactor;
     }
 
     update() {
-        this._z -= 4;
+        this._z -= this.baseSpeed;
         if (this._z <= 0) {
             this.setNewLabel();
             this._z = window.innerWidth;
         }
-        this._fontSize = 60 * (window.innerWidth / this._z);
+        this._fontSize = 40 * (window.innerWidth / this._z);
 
-        // Aktualisieren des div-Elements
         this._divElement.style.fontSize = `${this._fontSize}px`;
     }
+    
 
     draw() {
         // Zentrieren des div-Elements auf der Seite
@@ -92,43 +134,61 @@ export class MovingText {
 
     private setNewLabel() {
         if (this.latestStats && this.latestStats.data) {
+            this._info = this.latestStats.data.currentTick.toLocaleString();
             switch (this.variableNames[this.counter]) {
-                case 'timestamp':
+                case 'Timestamp':
+                    this._title = "timestamp";
+                    // Wandeln des Zeitstempels in ein UTC-Datum und Formatierung als Zeichenkette
+                    const date = new Date(this.latestStats.data.timestamp);
+
+                    // Formatierung als UTC-Zeit
+                    this.text = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')} ` +
+                        `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}:${String(date.getUTCSeconds()).padStart(2, '0')} UTC`;
                     this.text = this.latestStats.data.timestamp;
                     break;
                 case 'circulatingSupply':
-                    this.text = this.latestStats.data.circulatingSupply;
+                    this._title = "circulating supply";
+                    this.text = parseInt(this.latestStats.data.circulatingSupply).toLocaleString();
                     break;
                 case 'activeAddresses':
-                    this.text = this.latestStats.data.activeAddresses.toString();
+                    this._title = "active addresses";
+                    this.text = this.latestStats.data.activeAddresses.toLocaleString();
                     break;
                 case 'price':
-                    this.text = this.latestStats.data.price.toString();
+                    this._title = "price";
+                    this.text = this.latestStats.data.price.toString() + "$";
                     break;
                 case 'marketCap':
-                    this.text = this.latestStats.data.marketCap;
+                    this._title = "market cap";
+                    this.text = parseInt(this.latestStats.data.marketCap).toLocaleString()+ "$";
                     break;
                 case 'epoch':
-                    this.text = this.latestStats.data.epoch.toString();
-                    break;
-                case 'currentTick':
-                    this.text = this.latestStats.data.currentTick.toString();
+                    this._title = "epoch";
+                    this.text = this.latestStats.data.epoch.toLocaleString();
                     break;
                 case 'ticksInCurrentEpoch':
-                    this.text = this.latestStats.data.ticksInCurrentEpoch.toString();
+                    this._title = "ticks in current epoch";
+                    this.text = this.latestStats.data.ticksInCurrentEpoch.toLocaleString();
                     break;
                 case 'emptyTicksInCurrentEpoch':
-                    this.text = this.latestStats.data.emptyTicksInCurrentEpoch.toString();
+                    this._title = "Empty ticks in current epoch";
+                    this.text = this.latestStats.data.emptyTicksInCurrentEpoch.toLocaleString();
                     break;
                 case 'epochTickQuality':
-                    this.text = this.latestStats.data.epochTickQuality.toString();
+                    this._title = "epoch tick quality";
+                    this.text = this.latestStats.data.epochTickQuality.toString() + "%";
                     break;
                 case 'burnedQus':
-                    this.text = this.latestStats.data.burnedQus;
+                    this._title = "burned qus";
+                    this.text = parseInt(this.latestStats.data.burnedQus).toLocaleString();
                     this.counter = 0;
                     break;
                 default:
-                    this.text = 'N/A';
+                case 'currentTick':
+                    this._title = "Current Tick";
+                    this.text = this.latestStats.data.currentTick.toLocaleString();
+                    this._info = "";
+                    break;
                     break;
             }
             if (this.counter >= this.variableNames.length) {
