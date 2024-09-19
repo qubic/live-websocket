@@ -33,7 +33,8 @@ function animate() {
   movingText.update();
   movingText.draw();
 
-  // Update current tick display
+  // Update display
+  updateCurrentValueDisplay(movingText.currentValue);
   updateCurrentTickDisplay(movingText.currentTick);
 
   requestAnimationFrame(animate);
@@ -52,6 +53,18 @@ document.getElementById('toggleView')!.addEventListener('change', (event) => {
   isCube = checkbox.checked;
 });
 
+// Funktion zum Aktualisieren der Anzeige für Current Value
+function updateCurrentValueDisplay(currentValue: string | null) {
+  const displayElement = document.getElementById('currentValueDisplay')!;
+
+  if (currentValue !== null) {
+    displayElement.textContent = currentValue;
+
+  } else {
+    displayElement.textContent =  "0/12";
+  }
+}
+
 // Funktion zum Aktualisieren der Anzeige für Current Tick
 function updateCurrentTickDisplay(currentTick: number | null) {
   const displayElement = document.getElementById('currentTickDisplay')!;
@@ -59,7 +72,6 @@ function updateCurrentTickDisplay(currentTick: number | null) {
   if (displayElement.textContent != `Current Tick: ${currentTick?.toLocaleString()}`) {
     blinkElement(displayElement);
   }
-
   if (currentTick !== null) {
     displayElement.textContent = `Current Tick: ${currentTick.toLocaleString()}`;
 

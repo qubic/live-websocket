@@ -14,6 +14,7 @@ export class MovingText {
     private latestStats: LatestStatsResponse | null = null;
     private backupStats: LatestStatsResponse | null = null;
     private counter: number = 0;
+    private currentValueDisplay: string | null = null;
 
     // Liste der Variablennamen als Strings
     private variableNames: string[] = [
@@ -98,6 +99,10 @@ export class MovingText {
         return this.latestStats?.data?.currentTick ?? null;
     }
 
+    get currentValue(): string | null {
+        return this.currentValueDisplay ?? null;
+    }
+
     private updateSpeed() {
         const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
         this.baseSpeed = 5 * scaleFactor;
@@ -105,12 +110,12 @@ export class MovingText {
 
     update() {
         this._z -= this.baseSpeed;
-    
+
         // Wenn der Text den Bildschirm verlässt
         if (this._z <= 0) {
             this.setNewLabel();
             this._z = window.innerWidth;
-    
+
             // Setze den Text für eine Sekunde stehen und dann langsam ausblenden
             this._divElement.classList.remove('fade-out');
             setTimeout(() => {
@@ -121,11 +126,10 @@ export class MovingText {
                 }, 4000); // Verweildauer von 1 Sekunde
             }, 1500); // Kurze Verzögerung, um das Entfernen der Fade-Out-Klasse zu gewährleisten
         }
-    
+
         this._fontSize = 40 * (window.innerWidth / this._z);
         this._divElement.style.fontSize = `${this._fontSize}px`;
     }
-    
 
 
     draw() {
@@ -143,16 +147,14 @@ export class MovingText {
     private setNewLabel() {
         if (this.latestStats && this.latestStats.data) {
             this._info = this.latestStats.data.currentTick.toLocaleString();
+            this.currentValueDisplay = (this.counter + 1) + "/" + (this.variableNames.length + 1);
+
             switch (this.variableNames[this.counter]) {
                 case 'timestamp':
                     this._title = "timestamp";
-                    // Wandeln des Zeitstempels in ein UTC-Datum und Formatierung als Zeichenkette
-                    const date = new Date(this.latestStats.data.timestamp);
-
-                    // Formatierung als UTC-Zeit
-                    this.text = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')} ` +
-                        `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}:${String(date.getUTCSeconds()).padStart(2, '0')} UTC`;
-                    this.text = this.latestStats.data.timestamp;
+                    const timestamp = parseInt(this.latestStats.data.timestamp);
+                    const date = new Date(timestamp * 1000);
+                    this.text = date.toLocaleString();
                     break;
                 case 'circulatingSupply':
                     this._title = "circulating supply";
@@ -174,6 +176,11 @@ export class MovingText {
                     this._title = "epoch";
                     this.text = this.latestStats.data.epoch.toLocaleString();
                     break;
+                case 'currentTick':
+                    this._title = "Current Tick";
+                    this.text = this.latestStats.data.currentTick.toLocaleString();
+                    this._info = "";
+                    break;
                 case 'ticksInCurrentEpoch':
                     this._title = "ticks in current epoch";
                     this.text = this.latestStats.data.ticksInCurrentEpoch.toLocaleString();
@@ -191,11 +198,7 @@ export class MovingText {
                     this.text = parseInt(this.latestStats.data.burnedQus).toLocaleString();
                     break;
                 default:
-                case 'currentTick':
-                    this._title = "Current Tick";
-                    this.text = this.latestStats.data.currentTick.toLocaleString();
-                    this._info = "";
-                    break;
+                    break
             }
             if (this.counter >= this.variableNames.length) {
                 this.fetchLatestStats();
@@ -203,7 +206,7 @@ export class MovingText {
             } else {
                 this.counter++;
             }
-            console.log(this.counter+ "/"+this.variableNames.length +' Value:'+this.text);
+            console.log(this.counter + "/" + this.variableNames.length + ' ' + this.text);
         }
     }
 
