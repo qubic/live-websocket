@@ -169,7 +169,7 @@ export class MovingText {
                     this.text = this.latestStats.data.price.toString() + "$";
                     break;
                 case 'marketCap':
-                    this._title = "market cap";
+                    this._title = "marketcap";
                     this.text = parseInt(this.latestStats.data.marketCap).toLocaleString() + "$";
                     break;
                 case 'epoch':
@@ -177,20 +177,20 @@ export class MovingText {
                     this.text = this.latestStats.data.epoch.toLocaleString();
                     break;
                 case 'currentTick':
-                    this._title = "Current Tick";
+                    this._title = "current tick";
                     this.text = this.latestStats.data.currentTick.toLocaleString();
                     this._info = "";
                     break;
                 case 'ticksInCurrentEpoch':
-                    this._title = "ticks in current epoch";
+                    this._title = "number of ticks ";
                     this.text = this.latestStats.data.ticksInCurrentEpoch.toLocaleString();
                     break;
                 case 'emptyTicksInCurrentEpoch':
-                    this._title = "Empty ticks in current epoch";
+                    this._title = "empty ticks";
                     this.text = this.latestStats.data.emptyTicksInCurrentEpoch.toLocaleString();
                     break;
                 case 'epochTickQuality':
-                    this._title = "epoch tick quality";
+                    this._title = "tick quality";
                     this.text = this.latestStats.data.epochTickQuality.toString() + "%";
                     break;
                 case 'burnedQus':
