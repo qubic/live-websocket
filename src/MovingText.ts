@@ -42,9 +42,8 @@ export class MovingText {
         this.fetchLatestStats = this.fetchLatestStats.bind(this);
 
         // Call fetchLatestStats every 30 seconds
-        setInterval(this.fetchLatestStats, 60000);
+        //setInterval(this.fetchLatestStats, 10000);
         this.fetchLatestStats();
-
 
         // Erstellen des div-Elements
         this._divElement = document.createElement('div');
@@ -66,12 +65,6 @@ export class MovingText {
         this.removeDivElement();
 
         this._text = newText;
-
-        // Erstellen und Hinzufügen des neuen div-Elements
-        // this._divElement = document.createElement('div');
-        // this._divElement.className = 'moving-text';
-        // this._divElement.textContent = this._text;
-        // document.body.appendChild(this._divElement);
 
         // Erstellen und Hinzufügen des neuen div-Elements basierend auf dem neuen HTML
         this._divElement = document.createElement('div');
@@ -99,8 +92,10 @@ export class MovingText {
 
         // Hinzufügen des div-Elements zum Body
         document.body.appendChild(this._divElement);
+    }
 
-
+    get currentTick(): number | null {
+        return this.latestStats?.data?.currentTick ?? null;
     }
 
     private updateSpeed() {
@@ -118,7 +113,7 @@ export class MovingText {
 
         this._divElement.style.fontSize = `${this._fontSize}px`;
     }
-    
+
 
     draw() {
         // Zentrieren des div-Elements auf der Seite
@@ -136,7 +131,7 @@ export class MovingText {
         if (this.latestStats && this.latestStats.data) {
             this._info = this.latestStats.data.currentTick.toLocaleString();
             switch (this.variableNames[this.counter]) {
-                case 'Timestamp':
+                case 'timestamp':
                     this._title = "timestamp";
                     // Wandeln des Zeitstempels in ein UTC-Datum und Formatierung als Zeichenkette
                     const date = new Date(this.latestStats.data.timestamp);
@@ -160,7 +155,7 @@ export class MovingText {
                     break;
                 case 'marketCap':
                     this._title = "market cap";
-                    this.text = parseInt(this.latestStats.data.marketCap).toLocaleString()+ "$";
+                    this.text = parseInt(this.latestStats.data.marketCap).toLocaleString() + "$";
                     break;
                 case 'epoch':
                     this._title = "epoch";
@@ -181,7 +176,6 @@ export class MovingText {
                 case 'burnedQus':
                     this._title = "burned qus";
                     this.text = parseInt(this.latestStats.data.burnedQus).toLocaleString();
-                    this.counter = 0;
                     break;
                 default:
                 case 'currentTick':
@@ -189,14 +183,14 @@ export class MovingText {
                     this.text = this.latestStats.data.currentTick.toLocaleString();
                     this._info = "";
                     break;
-                    break;
             }
             if (this.counter >= this.variableNames.length) {
+                this.fetchLatestStats();
                 this.counter = 0;
             } else {
                 this.counter++;
             }
-            console.log('Value:', this.text);
+            console.log(this.counter+ "/"+this.variableNames.length +' Value:'+this.text);
         }
     }
 

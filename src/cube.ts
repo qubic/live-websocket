@@ -14,7 +14,7 @@ export class Cube {
     this.z = Math.random() * canvas.width + canvas.width / 2; // Startposition modifiziert
 
     // Setzt die Größe des Würfels
-    this.size = 10; // Größe etwas erhöht
+    this.size = 20; // Größe etwas erhöht
 
     // Definiert die 8 Eckpunkte des Würfels
     this.vertices = [
@@ -31,7 +31,7 @@ export class Cube {
 
   update() {
     // Bewegt den Würfel auf der Z-Achse
-    this.z -= 5; // Geschwindigkeit verringert
+    this.z -= 3; // Geschwindigkeit verringert
     if (this.z <= 0) {
       this.z = canvas.width + canvas.width / 2; // Resette die Position
     }
@@ -52,7 +52,7 @@ export class Cube {
     this.drawLine(1, 5);
     this.drawLine(2, 6);
     this.drawLine(3, 7);
-    ctx.strokeStyle = 'rgb(97 240 254)';
+    ctx.strokeStyle = 'rgba(176, 250, 255, 0.8)';
     ctx.stroke();
   }
 
