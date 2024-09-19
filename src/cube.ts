@@ -5,7 +5,8 @@ export class Cube {
   y: number;
   z: number;
   size: number;
-  vertices: { x: number; y: number; z: number }[];
+  vertices: { x: number; y: number; z: number }[];  
+  baseSpeed: number = 3;
 
   constructor() {
     // Setzt die Position des Würfels
@@ -27,11 +28,20 @@ export class Cube {
       { x: 1, y: 1, z: 1 },
       { x: -1, y: 1, z: 1 }
     ];
+    
+    this.updateSpeed();
+    window.addEventListener('resize', () => this.updateSpeed());
   }
+
+  private updateSpeed() {
+    const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
+    this.baseSpeed = 3 * scaleFactor;
+    this.size = 20 * scaleFactor; 
+}
 
   update() {
     // Bewegt den Würfel auf der Z-Achse
-    this.z -= 3; // Geschwindigkeit verringert
+    this.z -= this.baseSpeed;
     if (this.z <= 0) {
       this.z = canvas.width + canvas.width / 2; // Resette die Position
     }

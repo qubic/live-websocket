@@ -4,17 +4,25 @@ export class Star {
   x: number;
   y: number;
   z: number;
-  radius: number;
+  radius: number; 
+  baseSpeed: number = 5;
 
   constructor() {
     this.x = Math.random() * canvas.width - canvas.width / 2;
     this.y = Math.random() * canvas.height - canvas.height / 2;
     this.z = Math.random() * canvas.width;
     this.radius = 0.5;
+    this.updateSpeed();
+    window.addEventListener('resize', () => this.updateSpeed());
   }
 
+  private updateSpeed() {
+    const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
+    this.baseSpeed = 5 * scaleFactor;
+}
+
   update() {
-    this.z -= 5;
+    this.z -= this.baseSpeed;
     if (this.z <= 0) {
       this.z = canvas.width;
     }

@@ -18,16 +18,16 @@ export class MovingText {
 
     // Liste der Variablennamen als Strings
     private variableNames: string[] = [
-        "timestamp",
-        "circulatingSupply",
-        "activeAddresses",
+        "epoch",
         "price",
         "marketCap",
-        "epoch",
         "currentTick",
+        "timestamp",
+        "activeAddresses",
         "ticksInCurrentEpoch",
         "emptyTicksInCurrentEpoch",
         "epochTickQuality",
+        "circulatingSupply",
         "burnedQus"
     ];
 

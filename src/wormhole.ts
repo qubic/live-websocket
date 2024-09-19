@@ -87,5 +87,5 @@ function blinkElement(element: HTMLElement) {
   // Entferne die Klasse nach 5 Sekunden
   setTimeout(() => {
     element.classList.remove('blinking');
-  }, 5000); // 5 Sekunden
+  }, 3000); // 3 Sekunden
 }
