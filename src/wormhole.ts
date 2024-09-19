@@ -1,6 +1,6 @@
-import { MovingText } from './MovingText';
+import { MovingText } from './movingText';
 import { Cube } from './cube';
-import { Star } from './Star';
+import { Star } from './star';
 
 let movingText = new MovingText("Qubic Stats");
 let isCube = false;
