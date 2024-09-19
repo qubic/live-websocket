@@ -5,3 +5,12 @@
   width: 100px;
   height: auto;
 }
+
+.moving-text {
+  position: absolute;
+  color: rgba(176, 250, 255, 0.8);
+  /* color: rgb(64, 61, 61); */
+  font-family: "Space Grotesk", "Space Grotesk Placeholder", sans-serif;
+  text-align: center;
+  transform: translate(-50%, -50%); 
+}
