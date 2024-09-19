@@ -5,21 +5,13 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/src/images/Logo_dark.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="/manifest.json">
   <img src="/src/images/LogoFull_white.svg" alt="Logo" class="logo">
   <link rel="stylesheet" href="./src/style.css">
-  <title>Qubic</title>
-  <style>
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
-
-    canvas {
-      display: block;
-    }
-  </style>
+  <title>Qubic - Stats</title>
+  <meta name="msapplication-navbutton-color" content="#101820">
+  <meta name="theme-color" content="#101820">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#101820">
 </head>
 
 <body>
@@ -33,6 +25,13 @@
   <div id="currentTickDisplay">Current Tick: Not Available</div>
   <div id="currentValueDisplay"></div>
   <script type="module" src="/src/wormhole.ts"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+  </script>
 </body>
 
 </html>
