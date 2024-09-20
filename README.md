@@ -3,6 +3,15 @@
 ## Overview
 Qubic Star Rain is a dynamic visualization project that displays moving text with real-time Qubic network statistics. It creates an engaging visual experience by animating text across the screen, updating with the latest data from the Qubic network.
 
+## Local dev
+To dev it locally use this:
+- Clone the repository
+
+```bash
+npm install
+npm run start
+```
+
 ## Features
 - Animated moving text display
 - Real-time fetching and display of Qubic network statistics
@@ -11,7 +20,7 @@ Qubic Star Rain is a dynamic visualization project that displays moving text wit
 - Automatic cycling through various network metrics
 
 ## Key Components
-- `MovingText` class: Handles the creation, animation, and updating of text elements
+- `moving-text` class: Handles the creation, animation, and updating of text elements
 - `ApiStatsService`: Fetches the latest statistics from the Qubic network API
 
 ## Statistics Displayed
@@ -29,7 +38,7 @@ Qubic Star Rain is a dynamic visualization project that displays moving text wit
 
 ## Setup and Usage
 1. Include the necessary HTML elements in your page
-2. Initialize the `MovingText` class with initial text
+2. Initialize the `moving-text` class with initial text
 3. Call the `update` and `draw` methods in your animation loop
 
 ## Dependencies
