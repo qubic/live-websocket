@@ -42,16 +42,19 @@ function animate() {
 
 animate();
 
+
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
+
 
 // Checkbox Event-Listener 
 document.getElementById('toggleView')!.addEventListener('change', (event) => {
   const checkbox = event.target as HTMLInputElement;
   isCube = checkbox.checked;
 });
+
 
 function updateCurrentValueDisplay(currentValue: string | null) {
   const displayElement = document.getElementById('currentValueDisplay')!;
@@ -64,6 +67,7 @@ function updateCurrentValueDisplay(currentValue: string | null) {
   }
 }
 
+
 function updateCurrentTickDisplay(currentTick: number | null) {
   const displayElement = document.getElementById('currentTickDisplay')!;
 
@@ -72,11 +76,11 @@ function updateCurrentTickDisplay(currentTick: number | null) {
   }
   if (currentTick !== null) {
     displayElement.textContent = `Current Tick: ${currentTick.toLocaleString()}`;
-
   } else {
     displayElement.textContent = `Current Tick: Not Available`;
   }
 }
+
 
 function blinkElement(element: HTMLElement) {
   element.classList.add('blinking');

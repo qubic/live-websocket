@@ -1,13 +1,12 @@
 {
   "name": "qubic-star-rain",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A Qubic Star Rain visualization project",
   "private": true,
   "type": "module",
   "main": "src/main.ts",
   "scripts": {
     "dev": "vite",
-    "start-api-proxy": "node dev-proxy.cjs",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
