@@ -3,6 +3,14 @@
 ## Overview
 Qubic Star Rain is a dynamic visualization project that displays moving text with real-time Qubic network statistics. It creates an engaging visual experience by animating text across the screen, updating with the latest data from the Qubic network.
 
+## Technologies Used
+Is a Vite project with TypeScript as the framework.
+
+- Installation Vite
+```bash
+npm create vite@latest NAME -- --template vanilla-ts
+```
+
 ## Local dev
 To dev it locally use this:
 - Clone the repository
