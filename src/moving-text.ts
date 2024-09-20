@@ -16,7 +16,6 @@ export class MovingText {
     private counter: number = 0;
     private currentValueDisplay: string | null = null;
 
-    // Liste der Variablennamen als Strings
     private variableNames: string[] = [
         "epoch",
         "price",
@@ -31,67 +30,34 @@ export class MovingText {
         "burnedQus"
     ];
 
-
-    constructor(text: string) {
-        this._text = text;
-        this._title = "";
-        this._info = "";
-        this._z = window.innerWidth;
-        this._fontSize = 10;
-
-        // Bind `fetchLatestStats` to the current context
-        this.fetchLatestStats = this.fetchLatestStats.bind(this);
-
-        // Call fetchLatestStats every 30 seconds
-        //setInterval(this.fetchLatestStats, 10000);
-        this.fetchLatestStats();
-
-        // Erstellen des div-Elements
-        this._divElement = document.createElement('div');
-        this._divElement.className = 'moving-text';
-        this._divElement.textContent = this._text;
-
-        // Hinzufügen des div-Elements zum Body
-        document.body.appendChild(this._divElement);
-        this.updateSpeed();
-        window.addEventListener('resize', () => this.updateSpeed());
-    }
-
     get text(): string {
         return this._text;
     }
 
     set text(newText: string) {
-        // Entfernen des alten div-Elements, wenn der Text geändert wird
         this.removeDivElement();
 
         this._text = newText;
 
-        // Erstellen und Hinzufügen des neuen div-Elements basierend auf dem neuen HTML
         this._divElement = document.createElement('div');
         this._divElement.className = 'moving-text';
 
-        // Erstellen des div-Elements für den Titel
         const titleDiv = document.createElement('div');
         titleDiv.className = 'title';
         titleDiv.textContent = this._title;
 
-        // Erstellen des div-Elements für den Textwert
         const valueDiv = document.createElement('div');
         valueDiv.className = 'value';
         valueDiv.textContent = this._text;
 
-        // Erstellen des div-Elements für die Info
         const infoDiv = document.createElement('div');
         infoDiv.className = 'info';
         infoDiv.textContent = this._info;
 
-        // Zusammenbau der Elemente
         this._divElement.appendChild(titleDiv);
         this._divElement.appendChild(valueDiv);
         // this._divElement.appendChild(infoDiv);
 
-        // Hinzufügen des div-Elements zum Body
         document.body.appendChild(this._divElement);
     }
 
@@ -104,27 +70,48 @@ export class MovingText {
     }
 
     private updateSpeed() {
-        const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
+        const scaleFactor = window.innerWidth / 1920;
         this.baseSpeed = 5 * scaleFactor;
     }
+
+
+    constructor(text: string) {
+        this._text = text;
+        this._title = "";
+        this._info = "";
+        this._z = window.innerWidth;
+        this._fontSize = 10;
+
+        // Bind `fetchLatestStats` to the current context
+        this.fetchLatestStats = this.fetchLatestStats.bind(this);
+
+        // Call fetchLatestStats every 60 seconds
+        //setInterval(this.fetchLatestStats, 60000);
+        this.fetchLatestStats();
+
+        this._divElement = document.createElement('div');
+        this._divElement.className = 'moving-text';
+        this._divElement.textContent = this._text;
+
+        document.body.appendChild(this._divElement);
+        this.updateSpeed();
+        window.addEventListener('resize', () => this.updateSpeed());
+    }
+
 
     update() {
         this._z -= this.baseSpeed;
 
-        // Wenn der Text den Bildschirm verlässt
         if (this._z <= 0) {
-            this.setNewLabel();
+            this.setNewText();
             this._z = window.innerWidth;
 
-            // Setze den Text für eine Sekunde stehen und dann langsam ausblenden
             this._divElement.classList.remove('fade-out');
             setTimeout(() => {
-                // Text stehen lassen für 1 Sekunde
                 setTimeout(() => {
-                    // Text ausblenden
                     this._divElement.classList.add('fade-out');
-                }, 4000); // Verweildauer von 1 Sekunde
-            }, 1500); // Kurze Verzögerung, um das Entfernen der Fade-Out-Klasse zu gewährleisten
+                }, 4000);
+            }, 1500);
         }
 
         this._fontSize = 40 * (window.innerWidth / this._z);
@@ -133,10 +120,11 @@ export class MovingText {
 
 
     draw() {
-        // Zentrieren des div-Elements auf der Seite
+        // middle div-Elements
         this._divElement.style.left = `${window.innerWidth / 2}px`;
         this._divElement.style.top = `${window.innerHeight / 2}px`;
     }
+
 
     private removeDivElement() {
         if (this._divElement) {
@@ -144,7 +132,8 @@ export class MovingText {
         }
     }
 
-    private setNewLabel() {
+
+    private setNewText() {
         if (this.latestStats && this.latestStats.data) {
             this._info = this.latestStats.data.currentTick.toLocaleString();
             this.currentValueDisplay = (this.counter + 1) + "/" + (this.variableNames.length + 1);
@@ -216,15 +205,12 @@ export class MovingText {
         if (this.apiStatsService && typeof this.apiStatsService.getLatestStats === 'function') {
             this.apiStatsService.getLatestStats()
                 .then((response: LatestStatsResponse) => {
-                    // Backup des aktuellen Stats-Objekts erstellen
+                    // Backup current Stats-Objekts 
                     if (this.latestStats) {
-                        this.backupStats = { ...this.latestStats }; // Tiefes Kopieren
+                        this.backupStats = { ...this.latestStats };
                     }
 
-                    // Setze das aktuelle Stats-Objekt
                     this.latestStats = response;
-
-                    // Vergleiche die Daten
                     this.compareStats();
                 })
                 .catch((error) => {
@@ -235,6 +221,7 @@ export class MovingText {
         }
     }
 
+
     compareStats() {
         if (this.latestStats?.data && this.backupStats?.data) {
             if (this.latestStats.data.currentTick !== this.backupStats.data.currentTick) {
@@ -242,5 +229,4 @@ export class MovingText {
             }
         }
     }
-
 }

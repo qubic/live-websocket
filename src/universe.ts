@@ -1,11 +1,11 @@
-import { MovingText } from './movingText';
-import { Cube } from './cube';
-import { Star } from './star';
+import { MovingText } from './moving-text';
+import { Cube } from './elements/cube';
+import { Star } from './elements/star';
 
 let movingText = new MovingText("Qubic Stats");
 let isCube = false;
 
-export const canvas = document.getElementById('wormholeCanvas') as HTMLCanvasElement;
+export const canvas = document.getElementById('universeCanvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d')!;
 
 canvas.width = window.innerWidth;
@@ -47,13 +47,12 @@ window.addEventListener('resize', () => {
   canvas.height = window.innerHeight;
 });
 
-// Checkbox Event-Listener hinzufügen
+// Checkbox Event-Listener 
 document.getElementById('toggleView')!.addEventListener('change', (event) => {
   const checkbox = event.target as HTMLInputElement;
   isCube = checkbox.checked;
 });
 
-// Funktion zum Aktualisieren der Anzeige für Current Value
 function updateCurrentValueDisplay(currentValue: string | null) {
   const displayElement = document.getElementById('currentValueDisplay')!;
 
@@ -61,11 +60,10 @@ function updateCurrentValueDisplay(currentValue: string | null) {
     displayElement.textContent = currentValue;
 
   } else {
-    displayElement.textContent =  "0/12";
+    displayElement.textContent = "0/12";
   }
 }
 
-// Funktion zum Aktualisieren der Anzeige für Current Tick
 function updateCurrentTickDisplay(currentTick: number | null) {
   const displayElement = document.getElementById('currentTickDisplay')!;
 
@@ -80,12 +78,9 @@ function updateCurrentTickDisplay(currentTick: number | null) {
   }
 }
 
-// Funktion zum Blinken des Elements
 function blinkElement(element: HTMLElement) {
   element.classList.add('blinking');
-
-  // Entferne die Klasse nach 5 Sekunden
   setTimeout(() => {
     element.classList.remove('blinking');
-  }, 3000); // 3 Sekunden
+  }, 3000);
 }

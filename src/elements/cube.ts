@@ -1,4 +1,4 @@
-import { canvas, ctx } from "./wormhole";
+import { canvas, ctx } from "../universe";
 
 export class Cube {
   x: number;
@@ -14,8 +14,7 @@ export class Cube {
     this.y = Math.random() * canvas.height - canvas.height / 2;
     this.z = Math.random() * canvas.width + canvas.width / 2; // Startposition modifiziert
 
-    // Setzt die Größe des Würfels
-    this.size = 20; // Größe etwas erhöht
+    this.size = 20; 
 
     // Definiert die 8 Eckpunkte des Würfels
     this.vertices = [

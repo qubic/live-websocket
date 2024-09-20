@@ -3,7 +3,7 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/src/style.css',
-  '/src/wormhole.ts',
+  '/src/universe.ts',
   '/src/images/Logo_dark.webp',
   '/src/images/LogoFull_white.svg',
   '/manifest.json'
