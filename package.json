@@ -28,5 +28,10 @@
     "type": "git",
     "url": "https://github.com/AndyQus/qubic-star-rain.git"
   },
-  "keywords": ["qubic", "visualization", "star rain", "cube rain"]
+  "keywords": [
+    "qubic",
+    "visualization",
+    "star rain",
+    "cube rain"
+  ]
 }

@@ -1,9 +1,12 @@
-import { MovingText } from './moving-text';
+import { StatsInfo } from './stats-info';
 import { Cube } from './elements/cube';
 import { Star } from './elements/star';
+import { LiveInfo } from './live-info';
 
-let movingText = new MovingText("Qubic Stats");
+let statsInfo = new StatsInfo("Qubic Stats");
+let liveInfo = new LiveInfo("Qubic Live");
 let isCube = false;
+let isWebSockets = true;
 
 export const canvas = document.getElementById('universeCanvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d')!;
@@ -30,14 +33,20 @@ function animate() {
     });
   }
 
-  movingText.update();
-  movingText.draw();
+  if (isWebSockets) {
+    liveInfo.update();
+    liveInfo.draw();
+  } else {
+    statsInfo.update();
+    statsInfo.draw();
+  }
 
   // Update display
-  updateCurrentValueDisplay(movingText.currentValue);
-  updateCurrentTickDisplay(movingText.currentTick);
+  updateCurrentValueDisplay(statsInfo.currentValue);
+  updateCurrentTickDisplay(statsInfo.currentTick);
 
   requestAnimationFrame(animate);
+
 }
 
 animate();
@@ -49,12 +58,18 @@ window.addEventListener('resize', () => {
 });
 
 
-// Checkbox Event-Listener 
-document.getElementById('toggleView')!.addEventListener('change', (event) => {
+// Checkbox Event-Listener isCube
+document.getElementById('toggleViewIsCube')!.addEventListener('change', (event) => {
   const checkbox = event.target as HTMLInputElement;
   isCube = checkbox.checked;
 });
 
+
+// Checkbox Event-Listener is Live
+document.getElementById('toggleViewIsWebsockets')!.addEventListener('change', (event) => {
+  const checkbox = event.target as HTMLInputElement;
+  isWebSockets = checkbox.checked;
+});
 
 function updateCurrentValueDisplay(currentValue: string | null) {
   const displayElement = document.getElementById('currentValueDisplay')!;

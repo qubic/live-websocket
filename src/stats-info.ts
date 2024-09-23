@@ -1,7 +1,7 @@
 import { LatestStatsResponse } from "./services/apis/stats/api.stats.model";
 import { ApiStatsService } from "./services/apis/stats/api.stats.service";
 
-export class MovingText {
+export class StatsInfo {
     private _title: string;
     private _text: string;
     private _info: string;

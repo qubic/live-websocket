@@ -24,6 +24,19 @@ canvas {
   font-family: "Space Grotesk";
 }
 
+#controlsWebsockets {
+  position: absolute;
+  bottom: 50px;
+  left: 10px;
+  width: 110px;
+  height: 20px;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  font-family: "Space Grotesk";
+}
+
 #currentValueDisplay {
   position: absolute;
   bottom: 50px;
