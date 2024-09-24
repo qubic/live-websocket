@@ -3,118 +3,113 @@ import { BaseMessage, QuTransferMessage, RandomMiningSeedMessage, TickMessage } 
 import { MessageType } from './helpers/enums';
 
 export class LiveInfo {
-    private _title: string;
-    private _text: string;
-    // private _info: string;
-    private _z: number;
-    private _fontSize: number;
-    private _divElement: HTMLDivElement;
-    private baseSpeed: number = 5;
-
     private webSocketService: TransferWebSocketService;
+    private container: HTMLDivElement;
+    private messageQueue: Array<{ title: string, text: string }> = []; // Warteschlange für Nachrichten
+    private isAnimating: boolean = false; // Ob gerade eine Animation läuft
 
-    get text(): string {
-        return this._text;
-    }
-
-    set text(newText: string) {
-        this.removeDivElement();
-
-        this._text = newText;
-
-        this._divElement = document.createElement('div');
-        this._divElement.className = 'moving-text';
-
-        const titleDiv = document.createElement('div');
-        titleDiv.className = 'title';
-        titleDiv.textContent = this._title;
-
-        const valueDiv = document.createElement('div');
-        valueDiv.className = 'value';
-        valueDiv.textContent = this._text;
-
-        this._divElement.appendChild(titleDiv);
-        this._divElement.appendChild(valueDiv);
-
-        document.body.appendChild(this._divElement);
-    }
-
-    constructor(text: string) {
-        this._text = text;
-        this._title = "";
-        // this._info = "";
-        this._z = window.innerWidth;
-        this._fontSize = 10;
-
-        // Initialize the WebSocket service
+    constructor() {
+        // WebSocket-Service initialisieren
         this.webSocketService = new TransferWebSocketService();
 
-        // Setze das Callback für eingehende Nachrichten
+        // Container für die Nachrichten erstellen
+        this.container = document.createElement('div');
+        this.container.className = 'message-container';
+        document.body.appendChild(this.container);
+
+        // Callback für eingehende Nachrichten setzen
         this.webSocketService.setOnMessageCallback((message: BaseMessage) => {
             this.handleWebSocketMessage(message);
         });
 
-        this._divElement = document.createElement('div');
-        this._divElement.className = 'moving-text';
-        this._divElement.textContent = this._text;
+        setInterval(() => {
+            this.processQueue();
+        }, 1000); // 2000 Millisekunden = 2 Sekunden
 
-        document.body.appendChild(this._divElement);
-        // this.updateSpeed();
-        // window.addEventListener('resize', () => this.updateSpeed());
     }
 
-    update() {
-        this._z -= this.baseSpeed;
+    private createDivElement(title: string, text: string) {
+        const divElement = document.createElement('div');
+        divElement.className = 'live-moving-text';
 
-        if (this._z <= 0) {
-            this._z = window.innerWidth;
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'title';
+        titleDiv.textContent = title;
 
-            this._divElement.classList.remove('fade-out');
+        const valueDiv = document.createElement('div');
+        valueDiv.className = 'value';
+        valueDiv.textContent = text;
+
+        divElement.appendChild(titleDiv);
+        divElement.appendChild(valueDiv);
+
+        // Neue Nachricht am Ende des Containers einfügen
+        this.container.appendChild(divElement);
+
+        // Starte die Animation und zeige die nächste Nachricht, wenn die Animation fertig ist
+        this.animateDivElement(divElement).then(() => {
+            this.isAnimating = false; // Animation beendet
+            this.processQueue(); // Zeige die nächste Nachricht in der Warteschlange
+        });
+    }
+
+    private animateDivElement(divElement: HTMLDivElement): Promise<void> {
+        return new Promise((resolve) => {
+            divElement.style.animation = 'starWarsCrawl 17s linear forwards'; // Animation auf 17s ändern
+    
+            // Entferne das Element nach Abschluss der Animation
             setTimeout(() => {
-                setTimeout(() => {
-                    this._divElement.classList.add('fade-out');
-                }, 4000);
-            }, 1500);
-        }
-
-        this._fontSize = 40 * (window.innerWidth / this._z);
-        this._divElement.style.fontSize = `${this._fontSize}px`;
+                divElement.remove();
+                resolve();
+            }, 17000); // Warten bis 17 Sekunden nach dem Start der Animation
+        });
     }
-
-    draw() {
-        // middle div-Elements
-        this._divElement.style.left = `${window.innerWidth / 2}px`;
-        this._divElement.style.top = `${window.innerHeight / 2}px`;
-    }
-
-    private removeDivElement() {
-        if (this._divElement) {
-            document.body.removeChild(this._divElement);
-        }
-    }
+    
 
     private handleWebSocketMessage(message: BaseMessage) {
-        // Hier wird auf die eingehenden Nachrichten reagiert
         console.log('Received WebSocket message:', message);
-        
+
+        let title = '';
+        let text = '';
+
+        // Nachrichtentypen abfangen und Text zuweisen
         switch (message.MessageType) {
             case MessageType[MessageType.QuTransfer]:
-                const msgQuTransfer = message as QuTransferMessage; 
-            this._title = 'transfer amount:' + msgQuTransfer.Amount.toLocaleString();
-            this.text = 'From: '+msgQuTransfer.SourceAddress.substring(0, 5) +' To: '+ msgQuTransfer.DestinationAddress.substring(0, 5);
+                const msgQuTransfer = message as QuTransferMessage;
+                title = 'Transfer amount: ' + msgQuTransfer.Amount.toLocaleString();
+                text = 'From: ' + msgQuTransfer.SourceAddress.substring(0, 5) + ' To: ' + msgQuTransfer.DestinationAddress.substring(0, 5);
                 break;
             case MessageType[MessageType.RandomMiningSeed]:
-                const msgSeed = message as RandomMiningSeedMessage; 
-                this._title = `seed`;
-                this.text = msgSeed.Seed.toString();
+                const msgSeed = message as RandomMiningSeedMessage;
+                title = 'Seed';
+                text = msgSeed.Seed.substring(0, 5);
                 break;
             case MessageType[MessageType.Tick]:
-                const msgTick = message as TickMessage; 
-                this._title = `tick`;
-                this.text = msgTick.Tick.toLocaleString();
+                const msgTick = message as TickMessage;
+                title = 'Tick';
+                text = msgTick.Tick.toLocaleString();
                 break;
             default:
                 console.log('Unknown message type:', message);
+                return;
+        }
+
+        // Nachricht zur Warteschlange hinzufügen
+        this.messageQueue.push({ title, text });
+
+         this.processQueue();
+        if (!this.isAnimating) {
+        }
+    }
+
+    private processQueue() {
+        // Wenn Nachrichten in der Warteschlange vorhanden sind
+        if (this.messageQueue.length > 0) {
+            const nextMessage = this.messageQueue.shift(); // Nächste Nachricht aus der Warteschlange holen
+            if (nextMessage) {
+                this.isAnimating = true; // Setze das Animations-Flag
+                this.createDivElement(nextMessage.title, nextMessage.text); // Starte die Anzeige der Nachricht
+            }
         }
     }
 }

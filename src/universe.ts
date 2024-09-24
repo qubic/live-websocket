@@ -4,7 +4,7 @@ import { Star } from './elements/star';
 import { LiveInfo } from './live-info';
 
 let statsInfo = new StatsInfo("Qubic Stats");
-let liveInfo = new LiveInfo("Qubic Live");
+new LiveInfo();
 let isCube = false;
 let isWebSockets = true;
 
@@ -34,8 +34,7 @@ function animate() {
   }
 
   if (isWebSockets) {
-    liveInfo.update();
-    liveInfo.draw();
+   
   } else {
     statsInfo.update();
     statsInfo.draw();
