@@ -1,4 +1,6 @@
 import { canvas, ctx } from "../universe";
+import { Dialog } from "./dialog";
+
 
 export class Cube {
   x: number;
@@ -8,9 +10,13 @@ export class Cube {
   vertices: { x: number; y: number; z: number }[];
   baseSpeed: number = 3;
 
+  private static currentDialog: Dialog | null = null;
 
   constructor() {
-    this.resetPosition();
+    this.x = Math.random() * canvas.width - canvas.width / 2;
+    this.y = Math.random() * canvas.height - canvas.height / 2;
+    this.z = canvas.width * 2; // Start from far back
+
     this.size = 80;
 
     // Definiert die 8 Eckpunkte des Würfels
@@ -26,23 +32,14 @@ export class Cube {
     ];
 
     this.updateSpeed();
-     window.addEventListener('resize', () => this.updateSpeed());
+    window.addEventListener('resize', () => this.updateSpeed());
+    canvas.addEventListener('click', (event) => this.handleClick(event));
   }
 
   private updateSpeed() {
     const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
     this.baseSpeed = 3 * scaleFactor;
     this.size = 80 * scaleFactor;
-  }
-
-  resetPosition() {
-    this.x = Math.random() * canvas.width - canvas.width / 2;
-    this.y = Math.random() * canvas.height - canvas.height / 2;
-    this.z = canvas.width * 2; // Start from far back
-    // this.x = canvas.width / 2;
-    // this.y = canvas.height / 4;
-    // this.z = canvas.width * 2; // Start from far back
-    
   }
 
   update() {
@@ -100,4 +97,26 @@ export class Cube {
     return { x, y };
   }
 
-}
+
+  handleClick(event: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+
+    // Check if the click is within the cube's boundaries
+    const projectedCenter = this.project({ x: 0, y: 0, z: 0 });
+    if (projectedCenter) {
+      const distance = Math.sqrt(
+        Math.pow(mouseX - projectedCenter.x, 2) +
+        Math.pow(mouseY - projectedCenter.y, 2)
+      );
+
+      if (distance <= this.size / 2) {
+        if (Cube.currentDialog) {
+          Cube.currentDialog.close();
+        }
+        Cube.currentDialog = new Dialog('Cube Info', 'You clicked on a cube!');
+        Cube.currentDialog.show();
+      }
+    }
+  }}

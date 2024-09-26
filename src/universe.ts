@@ -4,6 +4,7 @@ import { Star } from './elements/star';
 import { LiveInfo } from './live-info';
 import { LiveCube } from './live-cube';
 
+
 let statsInfo = new StatsInfo("Qubic Stats");
 // let liveInfo = new LiveInfo();
 let liveCube = new LiveCube();
