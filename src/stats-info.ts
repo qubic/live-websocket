@@ -229,4 +229,13 @@ export class StatsInfo {
             }
         }
     }
+
+    show() {
+        this._divElement.style.display = 'block';
+    }
+
+    hide() {
+        this._divElement.style.display = 'none';
+    }
+
 }

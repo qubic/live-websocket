@@ -4,9 +4,38 @@ import { Star } from './elements/star';
 import { LiveInfo } from './live-info';
 
 let statsInfo = new StatsInfo("Qubic Stats");
-new LiveInfo();
+let liveInfo = new LiveInfo();
 let isCube = false;
 let isWebSockets = true;
+
+// Add these lines near the top of the file
+const navLive = document.getElementById('nav-live') as HTMLAnchorElement;
+const navStats = document.getElementById('nav-stats') as HTMLAnchorElement;
+
+// Add this function
+function switchView(view: 'live' | 'stats') {
+  if (view === 'live') {
+    isWebSockets = true;
+    liveInfo.show();
+    statsInfo.hide();
+  } else {
+    isWebSockets = false;
+    liveInfo.hide();
+    statsInfo.show();
+  }
+}
+
+// Add these event listeners
+navLive.addEventListener('click', (e) => {
+  e.preventDefault();
+  switchView('live');
+});
+
+navStats.addEventListener('click', (e) => {
+  e.preventDefault();
+  switchView('stats');
+});
+
 
 export const canvas = document.getElementById('universeCanvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d')!;
@@ -21,21 +50,20 @@ function animate() {
   ctx.fillStyle = 'rgb(0, 22, 29)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  if (isCube) {
-    cubes.forEach(cube => {
-      cube.update();
-      cube.draw();
-    });
-  } else {
-    stars.forEach(star => {
-      star.update();
-      star.draw();
-    });
-  }
+  if (!isWebSockets) {
 
-  if (isWebSockets) {
-   
-  } else {
+    if (isCube) {
+      cubes.forEach(cube => {
+        cube.update();
+        cube.draw();
+      });
+    } else {
+      stars.forEach(star => {
+        star.update();
+        star.draw();
+      });
+    }
+
     statsInfo.update();
     statsInfo.draw();
   }
@@ -45,7 +73,6 @@ function animate() {
   updateCurrentTickDisplay(statsInfo.currentTick);
 
   requestAnimationFrame(animate);
-
 }
 
 animate();
@@ -64,11 +91,6 @@ document.getElementById('toggleViewIsCube')!.addEventListener('change', (event) 
 });
 
 
-// Checkbox Event-Listener is Live
-document.getElementById('toggleViewIsWebsockets')!.addEventListener('change', (event) => {
-  const checkbox = event.target as HTMLInputElement;
-  isWebSockets = checkbox.checked;
-});
 
 function updateCurrentValueDisplay(currentValue: string | null) {
   const displayElement = document.getElementById('currentValueDisplay')!;

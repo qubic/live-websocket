@@ -112,4 +112,13 @@ export class LiveInfo {
             }
         }
     }
+    
+    show() {
+        this.container.style.display = 'block';
+    }
+    
+    hide() {
+        this.container.style.display = 'none';
+    }
+    
 }
