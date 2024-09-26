@@ -2,9 +2,11 @@ import { StatsInfo } from './stats-info';
 import { Cube } from './elements/cube';
 import { Star } from './elements/star';
 import { LiveInfo } from './live-info';
+import { LiveCube } from './live-cube';
 
 let statsInfo = new StatsInfo("Qubic Stats");
-let liveInfo = new LiveInfo();
+// let liveInfo = new LiveInfo();
+let liveCube = new LiveCube();
 let isCube = false;
 let isWebSockets = true;
 
@@ -16,11 +18,11 @@ const navStats = document.getElementById('nav-stats') as HTMLAnchorElement;
 function switchView(view: 'live' | 'stats') {
   if (view === 'live') {
     isWebSockets = true;
-    liveInfo.show();
+    // liveInfo.show();
     statsInfo.hide();
   } else {
     isWebSockets = false;
-    liveInfo.hide();
+    // liveInfo.hide();
     statsInfo.show();
   }
 }
@@ -50,8 +52,11 @@ function animate() {
   ctx.fillStyle = 'rgb(0, 22, 29)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  if (!isWebSockets) {
+  if (isWebSockets) {
 
+    liveCube.update();
+    liveCube.draw();
+  } else {
     if (isCube) {
       cubes.forEach(cube => {
         cube.update();

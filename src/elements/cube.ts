@@ -5,16 +5,13 @@ export class Cube {
   y: number;
   z: number;
   size: number;
-  vertices: { x: number; y: number; z: number }[];  
+  vertices: { x: number; y: number; z: number }[];
   baseSpeed: number = 3;
 
-  constructor() {
-    // Setzt die Position des Würfels
-    this.x = Math.random() * canvas.width - canvas.width / 2;
-    this.y = Math.random() * canvas.height - canvas.height / 2;
-    this.z = Math.random() * canvas.width + canvas.width / 2; // Startposition modifiziert
 
-    this.size = 20; 
+  constructor() {
+    this.resetPosition();
+    this.size = 80;
 
     // Definiert die 8 Eckpunkte des Würfels
     this.vertices = [
@@ -27,22 +24,35 @@ export class Cube {
       { x: 1, y: 1, z: 1 },
       { x: -1, y: 1, z: 1 }
     ];
-    
+
     this.updateSpeed();
-    window.addEventListener('resize', () => this.updateSpeed());
+     window.addEventListener('resize', () => this.updateSpeed());
   }
 
   private updateSpeed() {
     const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
     this.baseSpeed = 3 * scaleFactor;
-    this.size = 20 * scaleFactor; 
-}
+    this.size = 80 * scaleFactor;
+  }
+
+  resetPosition() {
+    this.x = Math.random() * canvas.width - canvas.width / 2;
+    this.y = Math.random() * canvas.height - canvas.height / 2;
+    this.z = canvas.width * 2; // Start from far back
+    // this.x = canvas.width / 2;
+    // this.y = canvas.height / 4;
+    // this.z = canvas.width * 2; // Start from far back
+    
+  }
 
   update() {
-    // Bewegt den Würfel auf der Z-Achse
     this.z -= this.baseSpeed;
     if (this.z <= 0) {
-      this.z = canvas.width + canvas.width / 2; // Resette die Position
+      // Reset to the far back when it reaches the front
+      this.z = canvas.width / 2;
+      // Optionally, randomize x and y positions again
+      this.x = Math.random() * canvas.width - canvas.width / 2;
+      this.y = Math.random() * canvas.height - canvas.height / 2;
     }
   }
 
@@ -77,14 +87,15 @@ export class Cube {
     }
   }
 
+
   project(vertex: { x: number; y: number; z: number }) {
-    // Wendet eine perspektivische Projektion auf den Würfel an
     const projectedZ = this.z + vertex.z * this.size;
-    if (projectedZ <= 0) return null; // Verhindert Division durch Null oder negative Werte
+    if (projectedZ <= 0) return null;
 
     const scale = canvas.width / projectedZ;
-    const x = (vertex.x * this.size + this.x) * scale + canvas.width / 8;
-    const y = (vertex.y * this.size + this.y) * scale + canvas.height / 6;
+    const x = (vertex.x * this.size + this.x) * scale + canvas.width / 2;
+    const y = (vertex.y * this.size + this.y) * scale + canvas.height / 2;
     return { x, y };
   }
+
 }
