@@ -25,7 +25,10 @@ export class LiveCube {
     }
 
     update() {
-        this.cubes.forEach(cube => cube.update());
+        this.cubes = this.cubes.filter(cube => {
+            const shouldKeep = cube.update();
+            return !shouldKeep; // Keep the cube if update() returns false
+        });
     }
 
     draw() {

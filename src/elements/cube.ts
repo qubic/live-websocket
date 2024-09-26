@@ -53,7 +53,9 @@ export class Cube {
       // Optionally, randomize x and y positions again
       this.x = Math.random() * canvas.width - canvas.width / 2;
       this.y = Math.random() * canvas.height - canvas.height / 2;
+      return true;
     }
+    return false;
   }
 
   draw() {
