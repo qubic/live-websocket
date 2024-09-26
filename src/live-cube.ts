@@ -1,9 +1,10 @@
 
 import { TransferWebSocketService } from "./services/websockets/wss.transfer.service";
-import { BaseMessage, QuTransferMessage, RandomMiningSeedMessage, TickMessage } from './services/websockets/wss.transfer.model';
-import { MessageType } from './helpers/enums';
+// import { BaseMessage, QuTransferMessage, RandomMiningSeedMessage, TickMessage } from './services/websockets/wss.transfer.model';
+import { BaseMessage, } from './services/websockets/wss.transfer.model';
+// import { MessageType } from './helpers/enums';
 import { Cube } from './elements/cube';
-import { canvas, ctx } from "./universe";
+// import { canvas, ctx } from "./universe";
 
 export class LiveCube {
     private webSocketService: TransferWebSocketService;

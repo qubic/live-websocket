@@ -1,4 +1,4 @@
-import { canvas, ctx } from "./wormhole";
+import { canvas, ctx } from "../universe";
 export class Cube {
   x: number;
   y: number;

@@ -1,7 +1,7 @@
 import { StatsInfo } from './stats-info';
 import { Cube } from './elements/cube';
 import { Star } from './elements/star';
-import { LiveInfo } from './live-info';
+// import { LiveInfo } from './live-info';
 import { LiveCube } from './live-cube';
 
 

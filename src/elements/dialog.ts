@@ -1,5 +1,3 @@
-import { canvas } from "../universe";
-
 export class Dialog {
     private dialogElement: HTMLDivElement;
 
