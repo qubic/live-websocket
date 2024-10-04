@@ -9,7 +9,7 @@ let statsInfo = new StatsInfo("Qubic Stats");
 // let liveInfo = new LiveInfo();
 let liveCube = new LiveCube();
 let isCube = false;
-let isWebSockets = true;
+let isWebSockets = false;
 
 // Add these lines near the top of the file
 const navLive = document.getElementById('nav-live') as HTMLAnchorElement;
@@ -38,7 +38,7 @@ navStats.addEventListener('click', (e) => {
   e.preventDefault();
   switchView('stats');
 });
-
+ 
 
 export const canvas = document.getElementById('universeCanvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d')!;
@@ -54,7 +54,6 @@ function animate() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   if (isWebSockets) {
-
     liveCube.update();
     liveCube.draw();
   } else {

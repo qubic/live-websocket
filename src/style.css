@@ -1,5 +1,4 @@
-body,
-html {
+body, html {
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -111,79 +110,22 @@ canvas {
 }
 
 
-
-
-
-.message-container {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 180vh;
-  perspective: 1000px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.live-moving-text {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 80px;
-  color: yellow;
-  font-family: 'Arial', sans-serif;
-  transform: rotateX(25deg) translateZ(0);
-}
-
-.title {
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 100px;
-}
-
-.value {
-  font-size: 90px;
-}
-
-@keyframes starWarsCrawl {
-  0% {
-      bottom: -100%; /* Beginnt unterhalb des Bildschirms */
-      transform: rotateX(25deg) translateZ(0);
-      opacity: 1; /* Voll sichtbar */
-  }
-  100% {
-      bottom: 150%; /* Ende bei 80% Höhe des Bildschirms */
-      transform: rotateX(25deg) translateZ(-3000px);
-      opacity: 0; /* Ausblenden */
-  }
-}
-
-
-
-.moving-text-live-1 {
+.moving-text {
   position: absolute;
   color: rgba(176, 250, 255, 0.8);
   font-family: "Space Grotesk";
   text-align: center;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, -50%);
   white-space: nowrap;
-  /* background-color: red; */
-}
-.moving-text-live-2 {
-  position: absolute;
-  color: rgba(176, 250, 255, 0.8);
-  font-family: "Space Grotesk";
-  text-align: center;
-  transform: translate(-50%, 30%);
-  white-space: nowrap;
-  /* background-color: green; */
+
+  /* background-color: rgb(0, 22, 29); */
+ 
 }
 
 .title {
   font-family: "Space Grotesk";
   font-size: 30px;
-  color: white;
+  color:  white;
   margin-bottom: 20px;
 }
 
@@ -198,66 +140,11 @@ canvas {
   color: gray;
 }
 
-
-
 .moving-text {
   position: absolute;
-  transition: opacity 1s ease-out;
-  /* Für das langsame Ausblenden */
+  transition: opacity 1s ease-out; /* Für das langsame Ausblenden */
 }
-
-
-
-.moving-text {
-  position: absolute;
-  color: rgba(176, 250, 255, 0.8);
-  font-family: "Space Grotesk";
-  text-align: center;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-}
-
 
 .fade-out {
   opacity: 0;
-}
-
-
-
-.dialog {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.dialog-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.dialog-content h2 {
-  margin-top: 0;
-}
-
-.dialog-content button {
-  margin-top: 10px;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.dialog-content button:hover {
-  background-color: #0056b3;
 }
