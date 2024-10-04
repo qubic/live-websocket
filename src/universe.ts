@@ -76,14 +76,6 @@ window.addEventListener('resize', () => {
 });
 
 
-// Checkbox Event-Listener isCube
-document.getElementById('toggleViewIsCube')!.addEventListener('change', (event) => {
-  const checkbox = event.target as HTMLInputElement;
-  isCube = checkbox.checked;
-});
-
-
-
 function updateCurrentValueDisplay(currentValue: string | null) {
   const displayElement = document.getElementById('currentValueDisplay')!;
 
