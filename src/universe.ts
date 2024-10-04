@@ -4,10 +4,9 @@ import { Star } from './elements/star';
 // import { LiveInfo } from './live-info';
 import { LiveCube } from './live-cube';
 
-
-let statsInfo = new StatsInfo("Qubic Stats");
 // let liveInfo = new LiveInfo();
 let liveCube = new LiveCube();
+let statsInfo = new StatsInfo("Qubic Stats");
 let isCube = false;
 let isWebSockets = false;
 
@@ -53,10 +52,14 @@ function animate() {
   ctx.fillStyle = 'rgb(0, 22, 29)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  // liveCube.update();
+  // liveCube.draw();
+
   if (isWebSockets) {
     liveCube.update();
     liveCube.draw();
   } else {
+    liveCube.clear();
     if (isCube) {
       cubes.forEach(cube => {
         cube.update();

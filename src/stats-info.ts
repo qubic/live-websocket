@@ -76,18 +76,16 @@ export class StatsInfo {
 
 
     constructor(text: string) {
-        this._text = text;
+        // Bind `fetchLatestStats` to the current context
+        this.fetchLatestStats = this.fetchLatestStats.bind(this);
+        this.fetchLatestStats();
+
+        this._text = text == null ? "Qubic Stats" : text;
         this._title = "";
         this._info = "";
         this._z = window.innerWidth;
         this._fontSize = 10;
 
-        // Bind `fetchLatestStats` to the current context
-        this.fetchLatestStats = this.fetchLatestStats.bind(this);
-
-        // Call fetchLatestStats every 60 seconds
-        //setInterval(this.fetchLatestStats, 60000);
-        this.fetchLatestStats();
 
         this._divElement = document.createElement('div');
         this._divElement.className = 'moving-text';

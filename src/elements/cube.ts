@@ -8,7 +8,9 @@ export class Cube {
   z: number;
   size: number;
   vertices: { x: number; y: number; z: number }[];
-  baseSpeed: number = 3;
+  speed = 8;
+  baseSpeed: number = this.speed;
+
 
   private static currentDialog: Dialog | null = null;
 
@@ -38,7 +40,7 @@ export class Cube {
 
   private updateSpeed() {
     const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
-    this.baseSpeed = 3 * scaleFactor;
+    this.baseSpeed = this.speed * scaleFactor;
     this.size = 80 * scaleFactor;
   }
 

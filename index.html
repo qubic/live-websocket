@@ -17,18 +17,19 @@
 <body>
   <nav id="main-nav">
     <ul>
-      <li><a href="#live" id="nav-live">Live</a></li>
       <li><a href="#stats" id="nav-stats">Stats</a></li>
+      <li><a href="#live" id="nav-live">Live</a></li>
     </ul>
+    <h3 class="terminal-headline">new messages in the network</h3>  
   </nav>
-  
-  <canvas id="universeCanvas"></canvas> 
-  <div id="controls">
+  <div id="terminal"></div>
+    <canvas id="universeCanvas"></canvas> 
+  <!-- <div id="controls">
     <label>
       <input type="checkbox" id="toggleViewIsCube">
       Show Cubes
     </label>
-  </div>
+  </div> -->
   <div id="currentTickDisplay">Current Tick: Not Available</div>
   <div id="currentValueDisplay"></div>
   <script type="module" src="/src/universe.ts"></script>
