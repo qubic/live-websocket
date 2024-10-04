@@ -7,55 +7,27 @@ html {
   background-color: rgb(0, 22, 29);
 }
 
-#main-nav {
+
+.logo-left {
   position: fixed;
-  top: 70px;
-  left: 10px;
-  z-index: 1000;
+  top: 20px;
+  left: 20px;
+  width: 120px;
+  height: auto;
 }
 
-#main-nav ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+.logo {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: auto;
 }
-
-#main-nav li {
-  display: inline-block;
-  margin-right: 0px;
-}
-
-#main-nav a {
-  color: white;
-  text-decoration: none;
-  padding: 5px 10px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  font-family: "Space Grotesk";
-}
-
-#main-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-
 
 
 canvas {
   display: block;
-}
-
-#controls {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  width: 110px;
-  height: 20px;
-  z-index: 100;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  padding: 10px;
-  font-family: "Space Grotesk";
 }
 
 
@@ -102,13 +74,6 @@ canvas {
   animation: blink 0.5s step-start 0s 10;
 }
 
-.logo {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 120px;
-  height: auto;
-}
 
 
 .moving-text {
@@ -117,10 +82,7 @@ canvas {
   font-family: "Space Grotesk";
   text-align: center;
   transform: translate(-50%, -50%);
-  white-space: nowrap;
-
-  /* background-color: rgb(0, 22, 29); */
-
+  white-space: nowrap; 
 }
 
 .title {
@@ -128,11 +90,13 @@ canvas {
   font-size: 30px;
   color: white;
   margin-bottom: 20px;
+  text-shadow: 0px 0px 40px rgba(239, 239, 239, 1);
 }
 
 .value {
   font-family: "Space Grotesk";
   color: rgb(97 240 254);
+  text-shadow: 0px 0px 40px rgba(239, 239, 239, 1);
 }
 
 .info {
@@ -196,7 +160,7 @@ canvas {
 
 #terminal {
   position: fixed;
-  top: 110px;
+  top: 65px;
   width: 100%;
   max-height: 100%;
   overflow-y: auto;
@@ -213,6 +177,10 @@ canvas {
 .terminal-headline{
   padding:0px 0 0 8px;
   color: rgba(176, 250, 255, .3);
+  position: fixed;
+  top: 45px;
+  left: 10px;
+  z-index: 1000;
 }
 
 

@@ -6,10 +6,12 @@ export class Cube {
   x: number;
   y: number;
   z: number;
-  size: number;
   vertices: { x: number; y: number; z: number }[];
-  speed = 8;
-  baseSpeed: number = this.speed;
+  size = 80;
+  speed = 25;
+  startFromFarBack = 10;
+  baseSize = this.size;
+  baseSpeed = this.speed;
 
 
   private static currentDialog: Dialog | null = null;
@@ -17,9 +19,10 @@ export class Cube {
   constructor() {
     this.x = Math.random() * canvas.width - canvas.width / 2;
     this.y = Math.random() * canvas.height - canvas.height / 2;
-    this.z = canvas.width * 2; // Start from far back
+    this.z = canvas.width * this.startFromFarBack; // Start from far back
 
-    this.size = 80;
+    this.size = this.baseSize; // Initial size value
+    this.baseSize = this.size;
 
     // Definiert die 8 Eckpunkte des Würfels
     this.vertices = [
@@ -41,7 +44,7 @@ export class Cube {
   private updateSpeed() {
     const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
     this.baseSpeed = this.speed * scaleFactor;
-    this.size = 80 * scaleFactor;
+    this.size = this.baseSize * scaleFactor;
   }
 
   update() {
@@ -121,4 +124,5 @@ export class Cube {
         Cube.currentDialog.show();
       }
     }
-  }}
+  }
+}
