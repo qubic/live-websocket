@@ -8,8 +8,10 @@ export class StatsInfo {
     private _z: number;
     private _fontSize: number;
     private _divElement: HTMLDivElement;
-    private baseSpeed: number = 5;
-
+    private speed: number = 5;
+    private fontSize : number = 40;
+    private baseSpeed: number = this.speed;
+    
     private apiStatsService = new ApiStatsService();
     private latestStats: LatestStatsResponse | null = null;
     private backupStats: LatestStatsResponse | null = null;
@@ -71,7 +73,7 @@ export class StatsInfo {
 
     private updateSpeed() {
         const scaleFactor = window.innerWidth / 1920;
-        this.baseSpeed = 5 * scaleFactor;
+        this.baseSpeed = this.speed * scaleFactor;
     }
 
 
@@ -84,7 +86,7 @@ export class StatsInfo {
         this._title = "";
         this._info = "";
         this._z = window.innerWidth;
-        this._fontSize = 10;
+        this._fontSize = this.fontSize;
 
 
         this._divElement = document.createElement('div');
@@ -112,7 +114,8 @@ export class StatsInfo {
             }, 1500);
         }
 
-        this._fontSize = 40 * (window.innerWidth / this._z);
+        const scaleFactor = window.innerWidth / 1920;
+        this._fontSize = this.fontSize * (scaleFactor / 0.5) * (window.innerWidth / this._z);
         this._divElement.style.fontSize = `${this._fontSize}px`;
     }
 

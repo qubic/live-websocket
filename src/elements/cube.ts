@@ -13,7 +13,6 @@ export class Cube {
   baseSize = this.size;
   baseSpeed = this.speed;
 
-
   private static currentDialog: Dialog | null = null;
 
   constructor() {
