@@ -137,7 +137,7 @@ canvas {
 
 #terminal {
   position: fixed;
-  top: 65px;
+  top: 55px;
   width: 100%;
   max-height: 100%;
   overflow-y: auto;
@@ -147,36 +147,38 @@ canvas {
 }
 
 .terminal-message {
-  margin: 5px 0;
+  margin: 0px 0;
   color: rgba(176, 250, 255, .3);
   font-family: 'Space Mono';
+  font-size: 0.8em;
 }
 
 .terminal-headline{
-  padding:0px 0 0 8px;
+  padding:0px 0px 0px 8px;
   color: rgba(176, 250, 255, .3);
   position: fixed;
-  top: 45px;
+  top: 40px;
   left: 10px;
   z-index: 1000;
   font-family: 'Space Mono';
+  font-size: 0.8em;
 }
 
 
 /* Anpassungen für kleinere Bildschirme */
 @media (max-width: 600px) {
   #terminal {
-    font-size: 12px; /* Kleinere Schriftgröße */
+    font-size: 11px; /* Kleinere Schriftgröße */
     padding: 10px; /* Weniger Padding */
   }
 
   .terminal-message {
-    font-size: 10px; /* Kleinere Schriftgröße für Nachrichten */
+    font-size: 9px; /* Kleinere Schriftgröße für Nachrichten */
     padding-left: 5px;;
   }
 
   .terminal-headline {
-    font-size: 12px; /* Kleinere Schriftgröße für Überschriften */
+    font-size: 11px; /* Kleinere Schriftgröße für Überschriften */
     padding-left: 5px;
   }
 }
