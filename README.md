@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Qubic Star Rain
+# Qubic Live
 
 ## Overview
 Qubic Star Rain is a dynamic visualization project that displays moving text with real-time Qubic network statistics. It creates an engaging visual experience by animating text across the screen, updating with the latest data from the Qubic network.
@@ -27,7 +26,7 @@ npm run start
 - Responsive design that adjusts to window size
 - Smooth transitions between different statistics
 - Automatic cycling through various network metrics
-- Additional Qubic network statistics
+- add websockets
 
 ## Key Components
 - `moving-text` class: Handles the creation, animation, and updating of text elements
@@ -69,7 +68,3 @@ Further our Code is protected by the AGPL-3.0 License. You may use our Source-Co
 
 ## Contact
 [[https://github.com/AndyQus](https://github.com/AndyQus)]
-=======
-# live-websocket
-access via websockets from qubic
->>>>>>> 90e0ca88abbe6d1c390ecd4c858f2e9b8aaba414
