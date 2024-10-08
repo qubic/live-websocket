@@ -8,6 +8,7 @@ export class Star {
   baseSpeed: number = 5;
 
   constructor() {
+    // Initialize the star's position and speed
     this.x = Math.random() * canvas.width - canvas.width / 2;
     this.y = Math.random() * canvas.height - canvas.height / 2;
     this.z = Math.random() * canvas.width;
@@ -16,11 +17,13 @@ export class Star {
     window.addEventListener('resize', () => this.updateSpeed());
   }
 
+  // Update the speed of the star based on the window width
   private updateSpeed() {
-    const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
+    const scaleFactor = window.innerWidth / 1920; // 1920 is a reference width
     this.baseSpeed = 5 * scaleFactor;
-}
+  }
 
+  // Update the star's position
   update() {
     this.z -= this.baseSpeed;
     if (this.z <= 0) {
@@ -28,6 +31,7 @@ export class Star {
     }
   }
 
+  // Draw the star on the canvas
   draw() {
     const x = this.x / (this.z / canvas.width) + canvas.width / 2;
     const y = this.y / (this.z / canvas.width) + canvas.height / 2;

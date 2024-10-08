@@ -1,42 +1,9 @@
 import { StatsInfo } from './stats-info';
 import { Star } from './elements/star';
-// import { LiveInfo } from './live-info';
 import { LiveCube } from './live-cube';
 
-// let liveInfo = new LiveInfo();
 let liveCube = new LiveCube();
 let statsInfo = new StatsInfo("Qubic Stats");
-// let isCube = false;
-// let isWebSockets = false;
-
-// // Add these lines near the top of the file
-// const navLive = document.getElementById('nav-live') as HTMLAnchorElement;
-// const navStats = document.getElementById('nav-stats') as HTMLAnchorElement;
-
-// // Add this function
-// function switchView(view: 'live' | 'stats') {
-//   if (view === 'live') {
-//     isWebSockets = true;
-//     // liveInfo.show();
-//     statsInfo.hide();
-//   } else {
-//     isWebSockets = false;
-//     // liveInfo.hide();
-//     statsInfo.show();
-//   }
-// }
-
-// // Add these event listeners
-// navLive.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   switchView('live');
-// });
-
-// navStats.addEventListener('click', (e) => {
-//   e.preventDefault();
-//   switchView('stats');
-// });
-
 
 export const canvas = document.getElementById('universeCanvas') as HTMLCanvasElement;
 export const ctx = canvas.getContext('2d')!;
@@ -69,25 +36,24 @@ function animate() {
 
 animate();
 
-
+// Adjust canvas size when the window is resized
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
 
-
+// Update the display element with the current value
 function updateCurrentValueDisplay(currentValue: string | null) {
   const displayElement = document.getElementById('currentValueDisplay')!;
 
   if (currentValue !== null) {
     displayElement.textContent = currentValue;
-
   } else {
     displayElement.textContent = "0/12";
   }
 }
 
-
+// Update the display element with the current tick
 function updateCurrentTickDisplay(currentTick: number | null) {
   const displayElement = document.getElementById('currentTickDisplay')!;
 
@@ -100,7 +66,6 @@ function updateCurrentTickDisplay(currentTick: number | null) {
     displayElement.textContent = `Current Tick: Not Available`;
   }
 }
-
 
 function blinkElement(element: HTMLElement) {
   element.classList.add('blinking');

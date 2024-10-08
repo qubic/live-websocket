@@ -26,6 +26,7 @@ npm run start
 - Responsive design that adjusts to window size
 - Smooth transitions between different statistics
 - Automatic cycling through various network metrics
+- Additional Qubic network statistics
 
 ## Key Components
 - `moving-text` class: Handles the creation, animation, and updating of text elements

@@ -1,4 +1,3 @@
-
 import { TransferWebSocketService } from "./services/websockets/wss.transfer.service";
 import { MessageType } from './helpers/enums';
 import { Cube } from './elements/cube';
@@ -9,12 +8,14 @@ export class LiveCube {
     private cubes: Cube[] = [];
 
     constructor() {
+        // Initialize the WebSocket service and set the message callback
         this.webSocketService = new TransferWebSocketService();
         this.webSocketService.setOnMessageCallback((message: BaseMessage) => {
             this.handleWebSocketMessage(message);
         });
     }
 
+    // Display a message in the terminal
     private displayMessage(title: string, text: string) {
         const messagesDiv = document.getElementById('terminal');
         if (messagesDiv) {
@@ -25,25 +26,24 @@ export class LiveCube {
         }
     }
     
+    // Handle incoming WebSocket messages
     private handleWebSocketMessage(message: BaseMessage) {
         console.log('Received WebSocket message:', message);
     
         let title = '';
         let text = '';
     
-        // Nachrichtentypen abfangen und Text zuweisen
+        // Catch message types and assign text
         switch (message.MessageType) {
             case MessageType[MessageType.QuTransfer]:
                 const msgQuTransfer = message as QuTransferMessage;
                 title = 'Transfer amount: ' + msgQuTransfer.Amount.toLocaleString();
                 text = 'From: ' + msgQuTransfer.SourceAddress.substring(0, 5) + ' To: ' + msgQuTransfer.DestinationAddress.substring(0, 5);
-                // text = 'From: ' + msgQuTransfer.SourceAddress + ' To: ' + msgQuTransfer.DestinationAddress;
                 break;
             case MessageType[MessageType.RandomMiningSeed]:
                 const msgSeed = message as RandomMiningSeedMessage;
                 title = 'Random Mining Seed';
                 text = msgSeed.Seed.substring(0, 5);
-                // text = msgSeed.Seed;
                 break;
             case MessageType[MessageType.Tick]:
                 const msgTick = message as TickMessage;
@@ -53,10 +53,7 @@ export class LiveCube {
             case MessageType[MessageType.SystemInfo]:
                 const msgSystemInfo = message as SystemInfoMessage;
                 title = 'System Info';
-                // text = 'Epoch: ' + msgSystemInfo.QubicSystemInfo.Epoch + ' Tick: ' + msgSystemInfo.QubicSystemInfo.Tick;
-                text = 'Epoch: ' + msgSystemInfo.QubicSystemInfo.Epoch + ' Tick: ' + msgSystemInfo.QubicSystemInfo.Tick + ' Version: ' + msgSystemInfo.QubicSystemInfo.Version;
-
-                break;
+                text = 'Epoch: ' + msgSystemInfo.QubicSystemInfo.Epoch + ' Tick: ' + msgSystemInfo.QubicSystemInfo.Tick + ' Version: ' + msgSystemInfo.QubicSystemInfo.Version;                break;
             default:
                 console.log('Unknown message type:', message);
                 title = message.MessageType;
@@ -83,7 +80,6 @@ export class LiveCube {
         this.cubes.forEach(cube => cube.draw());
     }
 
-    //Diese Methode soll alle Cubes löschen
     clear() {
         this.cubes = [];
     }

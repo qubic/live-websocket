@@ -1,6 +1,4 @@
 import { canvas, ctx } from "../universe";
-import { Dialog } from "./dialog";
-
 
 export class Cube {
   x: number;
@@ -13,8 +11,6 @@ export class Cube {
   baseSize = this.size;
   baseSpeed = this.speed;
 
-  private static currentDialog: Dialog | null = null;
-
   constructor() {
     this.x = Math.random() * canvas.width - canvas.width / 2;
     this.y = Math.random() * canvas.height - canvas.height / 2;
@@ -23,7 +19,7 @@ export class Cube {
     this.size = this.baseSize; // Initial size value
     this.baseSize = this.size;
 
-    // Definiert die 8 Eckpunkte des Würfels
+    // Defines the 8 vertices of the cube
     this.vertices = [
       { x: -1, y: -1, z: -1 },
       { x: 1, y: -1, z: -1 },
@@ -37,15 +33,16 @@ export class Cube {
 
     this.updateSpeed();
     window.addEventListener('resize', () => this.updateSpeed());
-    canvas.addEventListener('click', (event) => this.handleClick(event));
   }
 
+  // Updates the speed and size of the cube based on the window width
   private updateSpeed() {
-    const scaleFactor = window.innerWidth / 1920; // 1920 ist eine Referenzbreite
+    const scaleFactor = window.innerWidth / 1920; // 1920 is a reference width
     this.baseSpeed = this.speed * scaleFactor;
     this.size = this.baseSize * scaleFactor;
   }
 
+  // Updates the position of the cube and resets it if it reaches the front
   update() {
     this.z -= this.baseSpeed;
     if (this.z <= 0) {
@@ -59,8 +56,8 @@ export class Cube {
     return false;
   }
 
+  // Draws the cube by connecting its vertices with lines
   draw() {
-    // Zeichnet die Linien des Würfels
     ctx.beginPath();
     this.drawLine(0, 1);
     this.drawLine(1, 2);
@@ -78,19 +75,18 @@ export class Cube {
     ctx.stroke();
   }
 
+  // Draws a line between two vertices if they are visible on the screen
   drawLine(startIndex: number, endIndex: number) {
-    // Holt die Start- und Endpunkte der Linie
     const start = this.project(this.vertices[startIndex]);
     const end = this.project(this.vertices[endIndex]);
 
-    // Zeichnet eine Linie zwischen den beiden Punkten, nur wenn sie auf dem Bildschirm sichtbar sind
     if (start && end) {
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(end.x, end.y);
     }
   }
 
-
+  // Projects a 3D vertex to a 2D point on the canvas
   project(vertex: { x: number; y: number; z: number }) {
     const projectedZ = this.z + vertex.z * this.size;
     if (projectedZ <= 0) return null;
@@ -99,29 +95,5 @@ export class Cube {
     const x = (vertex.x * this.size + this.x) * scale + canvas.width / 2;
     const y = (vertex.y * this.size + this.y) * scale + canvas.height / 2;
     return { x, y };
-  }
-
-
-  handleClick(event: MouseEvent) {
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-
-    // Check if the click is within the cube's boundaries
-    const projectedCenter = this.project({ x: 0, y: 0, z: 0 });
-    if (projectedCenter) {
-      const distance = Math.sqrt(
-        Math.pow(mouseX - projectedCenter.x, 2) +
-        Math.pow(mouseY - projectedCenter.y, 2)
-      );
-
-      if (distance <= this.size / 2) {
-        if (Cube.currentDialog) {
-          Cube.currentDialog.close();
-        }
-        Cube.currentDialog = new Dialog('Cube Info', 'You clicked on a cube!');
-        Cube.currentDialog.show();
-      }
-    }
   }
 }

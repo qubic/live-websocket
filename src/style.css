@@ -7,15 +7,6 @@ html {
   background-color: rgb(0, 22, 29);
 }
 
-
-.logo-left {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 120px;
-  height: auto;
-}
-
 .logo {
   position: fixed;
   top: 20px;
@@ -25,11 +16,9 @@ html {
   height: auto;
 }
 
-
 canvas {
   display: block;
 }
-
 
 #currentValueDisplay {
   position: absolute;
@@ -41,11 +30,6 @@ canvas {
   color: white;
   padding: 10px;
   font-family: 'Space Grotesk', 'sans-serif';
-}
-
-.white-text {
-  color: white;
-  margin-top: 10px;;
 }
 
 #currentTickDisplay {
@@ -74,6 +58,10 @@ canvas {
   line-height: 1.9;
 }
 
+.white-text {
+  color: white;
+}
+
 @keyframes blink {
   0% {
     opacity: 0.3;
@@ -92,15 +80,13 @@ canvas {
   animation: blink 0.5s step-start 0s 10;
 }
 
-
-
 .moving-text {
   position: absolute;
   color: rgba(176, 250, 255, 0.8);
   font-family: 'Space Grotesk', 'sans-serif';
   text-align: center;
   transform: translate(-50%, -50%);
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .title {
@@ -126,16 +112,13 @@ canvas {
 .moving-text {
   position: absolute;
   transition: opacity 1s ease-out;
-  /* Für das langsame Ausblenden */
 }
 
 .fade-out {
   opacity: 0;
 }
 
-
 /* Terminal */
-
 #terminal {
   position: fixed;
   top: 65px;
@@ -154,8 +137,8 @@ canvas {
   font-size: 0.8em;
 }
 
-.terminal-headline{
-  padding:0px 0px 0px 8px;
+.terminal-headline {
+  padding: 0px 0px 0px 8px;
   color: rgba(176, 250, 255, .3);
   position: fixed;
   top: 50px;
@@ -165,21 +148,20 @@ canvas {
   font-size: 0.8em;
 }
 
-
-/* Anpassungen für kleinere Bildschirme */
 @media (max-width: 600px) {
   #terminal {
-    font-size: 11px; /* Kleinere Schriftgröße */
-    padding: 10px; /* Weniger Padding */
-  }
+    font-size: 11px;
+    padding: 10px;
 
-  .terminal-message {
-    font-size: 9px; /* Kleinere Schriftgröße für Nachrichten */
-    padding-left: 5px;;
-  }
+    .terminal-message {
+      font-size: 9px;
+      padding-left: 5px;
+      ;
+    }
 
-  .terminal-headline {
-    font-size: 11px; /* Kleinere Schriftgröße für Überschriften */
-    padding-left: 5px;
+    .terminal-headline {
+      font-size: 11px;
+      padding-left: 5px;
+    }
   }
 }
