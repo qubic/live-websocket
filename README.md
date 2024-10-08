@@ -60,7 +60,7 @@ npm run start
 - Additional Qubic network statistics
 
 ## Contributing
-Contributions to Qubic Star Rain are welcome. Please ensure you follow the existing code style and add unit tests for any new features.
+Contributions to Qubic Star Rain are welcome.
 
 ## License
 Apply the Anti-Military License. See https://github.com/computor-tools/qubic-crypto
