@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Qubic Star Rain
 
 ## Overview
@@ -68,3 +69,7 @@ Further our Code is protected by the AGPL-3.0 License. You may use our Source-Co
 
 ## Contact
 [[https://github.com/AndyQus](https://github.com/AndyQus)]
+=======
+# live-websocket
+access via websockets from qubic
+>>>>>>> 90e0ca88abbe6d1c390ecd4c858f2e9b8aaba414
